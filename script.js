@@ -9,20 +9,21 @@ function setMode(m){
   document.getElementById("mode2").classList.toggle("hidden", m!==2);
 }
 
-function simular(meses, inversion, gananciaNeta){
+function simular(meses, inversionInicial, utilidad){
 
   let acumulado = 0;
-  let utilidadRealMensual = gananciaNeta - inversion;
-
-  let tabla = "<table><tr><th>Mes</th><th>Monto invertido</th><th>Monto acumulado</th></tr>";
+  let tabla = "<table><tr><th>Periodo</th><th>Monto reinvertido</th><th>Monto acumulado</th></tr>";
 
   for(let i=1;i<=meses;i++){
 
-    acumulado += utilidadRealMensual;
+    const reinversion = inversionInicial; 
+    const disponible = utilidad - reinversion;
+
+    acumulado += disponible;
 
     tabla += `<tr>
                 <td>${i}</td>
-                <td>$${inversion.toFixed(2)}</td>
+                <td>$${reinversion.toFixed(2)}</td>
                 <td>$${acumulado.toFixed(2)}</td>
               </tr>`;
   }
@@ -30,6 +31,7 @@ function simular(meses, inversion, gananciaNeta){
   tabla += "</table>";
   document.getElementById("tabla").innerHTML = tabla;
 }
+
 
 
 function calcular(){
@@ -53,6 +55,7 @@ function calcular(){
   }
 
   const devoluciones = (parseFloat(document.getElementById("devoluciones").value) || 0) / 100;
+  const porcentajeVendedor = (parseFloat(document.getElementById("porcentajeVendedor").value) || 0) / 100;
   const meses = parseInt(document.getElementById("meses").value) || 1;
 
   const ventasTotales = productosMes * precioUnitario;
@@ -63,6 +66,9 @@ function calcular(){
   const gananciaBruta = productosMes * gananciaUnidad;
   const gananciaNeta = gananciaBruta * (1 - devoluciones);
 
+  const sueldoVendedor = gananciaNeta * porcentajeVendedor;
+  const utilidad = gananciaNeta - sueldoVendedor;
+
   document.getElementById("resultado").innerHTML =
     `<p><strong>Ventas:</strong> $${ventasTotales.toFixed(2)}</p>
      <p><strong>Costos:</strong></p>
@@ -71,14 +77,17 @@ function calcular(){
      <p>Transporte: $${costoTransporte.toFixed(2)}</p>
      <p>Total costos: $${costosTotales.toFixed(2)}</p>
      <p><strong>Ganancia bruta mensual:</strong> $${gananciaBruta.toFixed(2)}</p>
-     <p><strong>Ganancia neta mensual:</strong> $${gananciaNeta.toFixed(2)}</p>`;
+     <p><strong>Ganancia neta mensual:</strong> $${gananciaNeta.toFixed(2)}</p>
+     <p><strong>Sueldo vendedor:</strong> $${sueldoVendedor.toFixed(2)}</p>
+     <p><strong>Utilidad:</strong> $${utilidad.toFixed(2)}</p>`;
 
   if(meses > 1){
-    simular(meses, inversion, gananciaNeta);
+    simular(meses, inversion, utilidad);
   } else {
     document.getElementById("tabla").innerHTML = "";
   }
 }
+
 
 
 
