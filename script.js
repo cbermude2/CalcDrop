@@ -11,39 +11,57 @@ function setMode(m){
 
 function calcular(){
 
+  let inversion = 0;
   let productosMes = 0;
 
   if(modo === 1){
-    const inversion = parseFloat(document.getElementById("inversion").value);
-    productosMes = inversion / costoAds;
+    inversion = parseFloat(document.getElementById("inversion").value) || 0;
   } else {
-    const ventasDiarias = parseInt(document.getElementById("ventasDiarias").value);
+    const ventasDiarias = parseInt(document.getElementById("ventasDiarias").value) || 0;
     productosMes = ventasDiarias * 30;
   }
 
-  const devoluciones = parseFloat(document.getElementById("devoluciones").value) / 100;
-  const meses = parseInt(document.getElementById("meses").value);
+  const devoluciones = (parseFloat(document.getElementById("devoluciones").value) || 0) / 100;
+  const meses = parseInt(document.getElementById("meses").value) || 1;
 
-  const gananciaBruta = productosMes * gananciaUnidad;
-  const gananciaNeta = gananciaBruta * (1 - devoluciones);
+  let gananciaBruta = 0;
+  let gananciaNeta = 0;
+  let reinversion = 0;
 
-  document.getElementById("resultado").innerHTML =
-    `<p>Ganancia bruta mensual: $${gananciaBruta.toFixed(2)}</p>
-     <p>Ganancia neta mensual: $${gananciaNeta.toFixed(2)}</p>`;
+  if(modo === 1){
 
-  simular(meses, gananciaNeta, productosMes);
-}
+    // 🔥 NUEVA ESTRUCTURA PROPORCIONAL
+    const precio = inversion * 8.67;
+    const costoProducto = inversion * 2;
+    const costoTransporte = inversion * 2.33;
+    const costosTotales = inversion * 5.33;
 
-function simular(meses, gananciaNeta, reinversion){
+    gananciaBruta = inversion * 3.33;
+    gananciaNeta = gananciaBruta * (1 - devoluciones);
 
-  let acumulado = 0;
-  let tabla = "<table><tr><th>Mes</th><th>Reinversión</th><th>Acumulado</th></tr>";
+    reinversion = inversion;
 
-  for(let i=1;i<=meses;i++){
-    acumulado += (gananciaNeta - reinversion);
-    tabla += `<tr><td>${i}</td><td>$${reinversion.toFixed(2)}</td><td>$${acumulado.toFixed(2)}</td></tr>`;
+    document.getElementById("resultado").innerHTML =
+      `<p><strong>Precio estimado:</strong> $${precio.toFixed(2)}</p>
+       <p><strong>Costos:</strong></p>
+       <p>Publicidad: $${inversion.toFixed(2)}</p>
+       <p>Producto: $${costoProducto.toFixed(2)}</p>
+       <p>Transporte: $${costoTransporte.toFixed(2)}</p>
+       <p>Total costos: $${costosTotales.toFixed(2)}</p>
+       <p><strong>Ganancia bruta mensual:</strong> $${gananciaBruta.toFixed(2)}</p>
+       <p><strong>Ganancia neta mensual:</strong> $${gananciaNeta.toFixed(2)}</p>`;
+
+  } else {
+
+    // MODO VENTAS DIARIAS (lo dejamos compatible)
+    gananciaBruta = productosMes * 10;
+    gananciaNeta = gananciaBruta * (1 - devoluciones);
+    reinversion = productosMes * 3;
+
+    document.getElementById("resultado").innerHTML =
+      `<p><strong>Ganancia bruta mensual:</strong> $${gananciaBruta.toFixed(2)}</p>
+       <p><strong>Ganancia neta mensual:</strong> $${gananciaNeta.toFixed(2)}</p>`;
   }
 
-  tabla += "</table>";
-  document.getElementById("tabla").innerHTML = tabla;
+  simular(meses, gananciaNeta, reinversion);
 }
