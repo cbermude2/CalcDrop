@@ -9,18 +9,20 @@ function setMode(m){
   document.getElementById("mode2").classList.toggle("hidden", m!==2);
 }
 
-function simular(meses, inversionInicial, gananciaMensual){
+function simular(meses, inversion, gananciaNeta){
 
   let acumulado = 0;
-  let tabla = "<table><tr><th>Periodo</th><th>Monto invertido</th><th>Monto acumulado</th></tr>";
+  let utilidadRealMensual = gananciaNeta - inversion;
+
+  let tabla = "<table><tr><th>Mes</th><th>Monto invertido</th><th>Monto acumulado</th></tr>";
 
   for(let i=1;i<=meses;i++){
 
-    acumulado += gananciaMensual;
+    acumulado += utilidadRealMensual;
 
     tabla += `<tr>
                 <td>${i}</td>
-                <td>$${inversionInicial.toFixed(2)}</td>
+                <td>$${inversion.toFixed(2)}</td>
                 <td>$${acumulado.toFixed(2)}</td>
               </tr>`;
   }
@@ -30,13 +32,9 @@ function simular(meses, inversionInicial, gananciaMensual){
 }
 
 
-  tabla += "</table>";
-  document.getElementById("tabla").innerHTML = tabla;
-}
-
 function calcular(){
 
-  const precioUnitario = 26;
+  const precioUnitario = 26.00;
   const costoAds = 3;
   const costoProductoUnit = 6;
   const costoTransporteUnit = 7;
@@ -81,5 +79,6 @@ function calcular(){
     document.getElementById("tabla").innerHTML = "";
   }
 }
+
 
 
