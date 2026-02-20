@@ -32,8 +32,6 @@ function simular(meses, inversionInicial, utilidad){
   document.getElementById("tabla").innerHTML = tabla;
 }
 
-
-
 function calcular(){
 
   const precioUnitario = 26.00;
@@ -66,6 +64,7 @@ function calcular(){
   const gananciaBruta = productosMes * gananciaUnidad;
   const gananciaNeta = gananciaBruta * (1 - devoluciones);
 
+  // 🔥 NUEVO
   const sueldoVendedor = gananciaNeta * porcentajeVendedor;
   const utilidad = gananciaNeta - sueldoVendedor;
 
@@ -87,7 +86,4 @@ function calcular(){
     document.getElementById("tabla").innerHTML = "";
   }
 }
-
-
-
 
