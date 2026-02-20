@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Dropshipping</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <h1>💰 Calculadora Dropshipping</h1>
+
+  <div class="tabs">
+    <button onclick="setMode(1)">Modo Inversión</button>
+    <button onclick="setMode(2)">Modo Ventas Diarias</button>
+  </div>
+
+  <div id="mode1" class="panel">
+    <input type="number" id="inversion" placeholder="Inversión mensual en Facebook">
+  </div>
+
+  <div id="mode2" class="panel hidden">
+    <select id="ventasDiarias">
+      <option>5</option><option>10</option><option>15</option>
+      <option>20</option><option>25</option><option>30</option>
+      <option>35</option><option>40</option><option>45</option>
+      <option>50</option>
+    </select>
+  </div>
+
+  <input type="number" id="devoluciones" placeholder="% devoluciones">
+  <input type="number" id="meses" placeholder="Meses a simular">
+
+  <button class="calcular" onclick="calcular()">Calcular</button>
+
+  <div id="resultado"></div>
+  <div id="tabla"></div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
